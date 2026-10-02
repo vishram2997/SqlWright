@@ -10,7 +10,6 @@
   <PropertyGroup>
     <IsPackable>true</IsPackable>
     <PackageId>SqlWright</PackageId>
-    <Version>0.1.0</Version>
     <Description>A fast, lightweight micro-ORM for .NET. Injection-safe interpolated SQL, built-in CRUD for SQL Server, PostgreSQL, SQLite and MySQL, and error messages that tell you what went wrong. Maps query results to classes, records and dynamic rows, with full async support.</Description>
     <PackageTags>orm;micro-orm;sql;ado.net;database;mapper;dapper;crud;interpolation</PackageTags>
   </PropertyGroup>

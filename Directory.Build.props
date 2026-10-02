@@ -10,6 +10,8 @@
 
   <!-- Shared NuGet package metadata for every project in the repo. -->
   <PropertyGroup>
+    <!-- One version for all packages. Release CI overrides it with the pushed tag (v1.2.3 -> 1.2.3). -->
+    <Version>1.0.0</Version>
     <Authors>Vishram Singh</Authors>
     <Company></Company>
     <Copyright>Copyright (c) 2026 Vishram Singh</Copyright>
