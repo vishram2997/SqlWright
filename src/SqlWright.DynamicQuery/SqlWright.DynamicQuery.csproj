@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>SqlWright.DynamicQuery</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <!-- Package-specific metadata; shared metadata lives in Directory.Build.props. -->
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <PackageId>SqlWright.DynamicQuery</PackageId>
+    <Version>0.1.0</Version>
+    <Description>Safe, allowlisted dynamic queries for SqlWright: turn a JSON query request (filters, joins, grouping, sorting, offset or cursor pagination) from an API client into parameterised SQL for SQL Server, PostgreSQL, SQLite or MySQL.</Description>
+    <PackageTags>orm;sql;dynamic-query;query-builder;filtering;pagination;api;sqlwright</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SqlWright\SqlWright.csproj" />
+  </ItemGroup>
+
+</Project>
