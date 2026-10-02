@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+    tags: ['v*']
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    # Real SQL Server for tests/SqlWright.SqlServer.Tests
+    services:
+      sqlserver:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        env:
+          ACCEPT_EULA: Y
+          MSSQL_SA_PASSWORD: SqlWright_Test1!
+        ports:
+          - 1433:1433
+        options: >-
+          --health-cmd "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P SqlWright_Test1! -C -Q 'SELECT 1'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 12
+
+    env:
+      SQLWRIGHT_SQLSERVER: Server=localhost,1433;Database=SqlWrightTests;User Id=sa;Password=SqlWright_Test1!;TrustServerCertificate=true
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - run: dotnet restore
+      - run: dotnet build -c Release --no-restore
+      - run: dotnet test -c Release --no-build
+
+      # Tag a release as v1.2.3 to publish version 1.2.3 of both packages (test projects aren't packable).
+      - name: Pack
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: dotnet pack -c Release --no-build -o artifacts -p:Version=${GITHUB_REF_NAME#v}
+
+      - name: Publish to NuGet
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: dotnet nuget push "artifacts/*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
